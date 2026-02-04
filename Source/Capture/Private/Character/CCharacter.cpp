@@ -73,9 +73,18 @@ UAbilitySystemComponent* ACCharacter::GetAbilitySystemComponent() const
 
 void ACCharacter::InitializedOverheadWidget()
 {
+
+	if (GetController() && GetController()->IsPlayerController())
+	{
+		// we are the character played by the local player.	
+		OverheadWidgetComponent->SetVisibility(false);
+		return;
+	}
+
 	if (UOverheadStatusGauge* StatusGuage = Cast<UOverheadStatusGauge>(OverheadWidgetComponent->GetUserWidgetObject()))
 	{
 		StatusGuage->SetOwningAbilitySystemComponent(GetAbilitySystemComponent());
+		OverheadWidgetComponent->SetVisibility(true);
 	}
 }
 
