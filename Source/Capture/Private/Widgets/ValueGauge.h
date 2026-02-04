@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ValueGauge.generated.h"
 
+class UAbilitySystemComponent;
+struct FGameplayAttribute;
 /**
  * 
  */
@@ -16,6 +18,10 @@ class UValueGauge : public UUserWidget
 public:
 	// the same as the construction script in blueprint.
 	virtual void NativePreConstruct() override;
+	void BindToGameplayAttribute(UAbilitySystemComponent* AbilitySystemComponent,
+		const FGameplayAttribute& Attribute, const FGameplayAttribute& MaxAttribute);
+
+	void SetValue(float Value, float MaxValue);
 
 private:	
 	UPROPERTY(meta=(BindWidget))
