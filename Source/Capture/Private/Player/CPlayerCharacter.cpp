@@ -20,6 +20,7 @@ ACPlayerCharacter::ACPlayerCharacter()
 
 	ViewCamera = CreateDefaultSubobject<UCameraComponent>("View Camera");
 	ViewCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+
 }
 
 void ACPlayerCharacter::PawnClientRestart()

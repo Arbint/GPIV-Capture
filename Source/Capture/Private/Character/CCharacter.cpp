@@ -6,6 +6,8 @@
 #include "Ability/CAbilitySystemComponent.h"
 #include "Ability/CAttributeSet.h"
 
+#include "Components/CapsuleComponent.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -21,6 +23,9 @@ ACCharacter::ACCharacter()
 
 	CAbilitySystemComponent = CreateDefaultSubobject<UCAbilitySystemComponent>("CAbilitySystemComponent");
 	CAttributeSet = CreateDefaultSubobject<UCAttributeSet>("CAttributeSet");
+
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 }
 
 void ACCharacter::ServerSideInit()

@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "CPlayerController.generated.h"
 
+class UGameplayWidget;
+class ACPlayerCharacter;
 /**
  * 
  */
@@ -22,5 +24,13 @@ public:
 
 private:
 	UPROPERTY()
-	class ACPlayerCharacter* CPlayerCharacter;
+	ACPlayerCharacter* CPlayerCharacter;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UGameplayWidget> GameplayWidgetClass;
+
+	UPROPERTY()
+	UGameplayWidget* GameplayWidget;
+
+	void SpawnGameplayWidget();
 };
