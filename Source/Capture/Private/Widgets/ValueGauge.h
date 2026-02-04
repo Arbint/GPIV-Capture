@@ -32,4 +32,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Value Guage")
 	FLinearColor BarColor;
+
+	void ValueUpdated(const struct FOnAttributeChangeData& NewValue);
+	void MaxValueUpdated(const struct FOnAttributeChangeData& NewMaxValue);
+
+	float CachedValue = 0.f;
+	float CachedMaxValue = 0.f;
 };

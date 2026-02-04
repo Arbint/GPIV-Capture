@@ -21,6 +21,9 @@ void UValueGauge::NativePreConstruct()
 
 void UValueGauge::SetValue(float Value, float MaxValue)
 {
+	CachedValue = Value;
+	CachedMaxValue = MaxValue;
+
 	if (MaxValue == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s: Max Value is: 0, can't calculate value for value gauge"), *(GetName()))
@@ -40,6 +43,16 @@ void UValueGauge::SetValue(float Value, float MaxValue)
 	);
 }
 
+void UValueGauge::ValueUpdated(const FOnAttributeChangeData& NewValue)
+{
+	SetValue(NewValue.NewValue, CachedMaxValue);
+}
+
+void UValueGauge::MaxValueUpdated(const FOnAttributeChangeData& NewMaxValue)
+{
+	SetValue(CachedValue, NewMaxValue.NewValue);
+}
+
 void UValueGauge::BindToGameplayAttribute(UAbilitySystemComponent* AbilitySystemComponent,
 	const FGameplayAttribute& Attribute, const FGameplayAttribute& MaxAttribute)
 {
@@ -51,4 +64,7 @@ void UValueGauge::BindToGameplayAttribute(UAbilitySystemComponent* AbilitySystem
 	{
 		SetValue(Value, MaxValue);
 	}
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Attribute).AddUObject(this, &UValueGauge::ValueUpdated);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(MaxAttribute).AddUObject(this, &UValueGauge::MaxValueUpdated);
 }

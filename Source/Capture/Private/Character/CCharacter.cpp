@@ -7,8 +7,11 @@
 #include "Ability/CAttributeSet.h"
 
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+
+#include "Widgets/OverheadStatusGauge.h"
 
 // Sets default values
 ACCharacter::ACCharacter()
@@ -26,6 +29,9 @@ ACCharacter::ACCharacter()
 
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+
+	OverheadWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("OverheadWidgetComponent");
+	OverheadWidgetComponent->SetupAttachment(GetRootComponent());
 }
 
 void ACCharacter::ServerSideInit()
@@ -43,6 +49,7 @@ void ACCharacter::ClientSideInit()
 void ACCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	InitializedOverheadWidget();
 }
 
 // Called every frame
@@ -62,5 +69,13 @@ void ACCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 UAbilitySystemComponent* ACCharacter::GetAbilitySystemComponent() const
 {
 	return CAbilitySystemComponent;
+}
+
+void ACCharacter::InitializedOverheadWidget()
+{
+	if (UOverheadStatusGauge* StatusGuage = Cast<UOverheadStatusGauge>(OverheadWidgetComponent->GetUserWidgetObject()))
+	{
+		StatusGuage->SetOwningAbilitySystemComponent(GetAbilitySystemComponent());
+	}
 }
 

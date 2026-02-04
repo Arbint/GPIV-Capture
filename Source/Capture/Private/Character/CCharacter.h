@@ -42,4 +42,12 @@ private:
 
 	UPROPERTY()
 	class UCAttributeSet* CAttributeSet;
+	/****************************************************/
+	/*                        UI                        */
+	/****************************************************/
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Widgets")
+	class UWidgetComponent* OverheadWidgetComponent;
+
+	void InitializedOverheadWidget();
 };
