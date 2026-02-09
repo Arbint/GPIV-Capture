@@ -14,6 +14,8 @@ class UGA_Combo : public UCGameplayAbility
 {
 	GENERATED_BODY()
 public:
+	UGA_Combo();
+
 	virtual void ActivateAbility(
 		const FGameplayAbilitySpecHandle Handle, 
 		const FGameplayAbilityActorInfo* ActorInfo,
