@@ -3,6 +3,8 @@
 
 #include "Player/CPlayerCharacter.h"
 
+#include "AbilitySystemComponent.h"
+
 #include "Camera/CameraComponent.h"
 
 #include "EnhancedInputComponent.h"
@@ -48,6 +50,17 @@ void ACPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Triggered, this, &ACPlayerCharacter::Jump);
 		EnhancedInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &ACPlayerCharacter::HandleMoveInput);
 		EnhancedInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this, &ACPlayerCharacter::HandleLookInput);
+
+		for (const TPair<ECAbilityInputID, UInputAction*>& AbilityInputPair : AbilityInputMap)
+		{
+			EnhancedInputComponent->BindAction(
+				AbilityInputPair.Value, 
+				ETriggerEvent::Triggered,
+				this,
+				&ACPlayerCharacter::HandleAbilityInput,
+				AbilityInputPair.Key
+			);
+		}
 	}
 }
 
@@ -67,4 +80,17 @@ void ACPlayerCharacter::HandleLookInput(const FInputActionValue& InputActionValu
 	FVector2D InputVal = InputActionValue.Get<FVector2D>();
 	AddControllerYawInput(InputVal.X);
 	AddControllerPitchInput(InputVal.Y);
+}
+
+void ACPlayerCharacter::HandleAbilityInput(const FInputActionValue& InputActionValue, ECAbilityInputID AbilityInputID)
+{
+	bool bPressed = InputActionValue.Get<bool>();
+	if (bPressed)
+	{
+		GetAbilitySystemComponent()->AbilityLocalInputPressed((int32)AbilityInputID);
+	}
+	else
+	{
+		GetAbilitySystemComponent()->AbilityLocalInputReleased((int32)AbilityInputID);
+	}
 }

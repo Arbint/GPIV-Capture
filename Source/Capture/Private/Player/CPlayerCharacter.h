@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/CCharacter.h"
+#include "Ability/CAbilityInputID.h"
 #include "CPlayerCharacter.generated.h"
 
 /**
@@ -32,6 +33,9 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TMap<ECAbilityInputID, class UInputAction*> AbilityInputMap;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputMappingContext* GameplayInputMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
@@ -46,4 +50,6 @@ private:
 	class UInputAction* LookInputAction;
 
 	void HandleLookInput(const struct FInputActionValue& InputActionValue);
+
+	void HandleAbilityInput(const struct FInputActionValue& InputActionValue, ECAbilityInputID AbilityInputID);
 };
