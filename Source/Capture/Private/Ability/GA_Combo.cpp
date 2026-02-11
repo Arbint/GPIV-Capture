@@ -9,6 +9,7 @@ UGA_Combo::UGA_Combo()
 {
 	AbilityTags.AddTag(TAG_Combo);
 	BlockAbilitiesWithTag.AddTag(TAG_Combo);
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 }
 
 void UGA_Combo::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
