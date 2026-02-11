@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Ability/CGameplayAbility.h"
+#include "Abilities/GameplayAbilityTypes.h"
 #include "GA_Combo.generated.h"
 
 /**
@@ -25,4 +26,14 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* ComboMontage;
+
+	UFUNCTION()
+	void HandleComboChange(FGameplayEventData EventData);
+
+	void BindInputPressedEvent();
+
+	UFUNCTION()
+	void HandleComboChangeCommit(float TimeWaited);
+
+	FName NextComboName;
 };
