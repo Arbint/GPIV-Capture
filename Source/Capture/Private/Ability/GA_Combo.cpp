@@ -7,6 +7,7 @@
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
 #include "Abilities/Tasks/AbilityTask_WaitInputPress.h"
 #include "GameplayTagsManager.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 UGA_Combo::UGA_Combo()
 {
@@ -52,6 +53,23 @@ void UGA_Combo::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	BindInputPressedEvent();
 }
 
+TSubclassOf<UGameplayEffect> UGA_Combo::GetDamageEffectForCurrentCombo() const
+{
+	UAnimInstance* OwnerAnimInst = GetOwnerAnimInst();
+	if (OwnerAnimInst)
+	{
+		const TSubclassOf<UGameplayEffect>* FoundDamageEffect = DamageEffectMap.Find(
+			OwnerAnimInst->Montage_GetCurrentSection(ComboMontage));
+
+		if (FoundDamageEffect)
+		{
+			return *FoundDamageEffect;
+		}
+	}
+
+	return DefaultDamageEffect;
+}
+
 void UGA_Combo::HandleComboChange(FGameplayEventData EventData)
 {
 	FGameplayTag EventTag = EventData.EventTag;
@@ -73,6 +91,17 @@ void UGA_Combo::HandleDamageEvent(FGameplayEventData EventData)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Doing Damage! starting at: %s"), *(EventData.TargetData.Get(0)->GetOrigin().GetLocation().ToString()))
 	TArray<FHitResult> Targets = GetHitResultFromTargetData(EventData.TargetData, DamageDetectionRadius, true, bShouldDrawDebug);
+	for (const FHitResult& Target : Targets)
+	{
+		ApplyGameplayEffectToTarget(
+			GetCurrentAbilitySpecHandle(),
+			GetCurrentActorInfo(),
+			GetCurrentActivationInfo(),
+			UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(Target),
+			GetDamageEffectForCurrentCombo(),
+			GetAbilityLevel(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo())
+		);
+	}
 }
 
 void UGA_Combo::BindInputPressedEvent()

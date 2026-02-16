@@ -30,6 +30,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DamageDetectionRadius = 40.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TSubclassOf<UGameplayEffect> DefaultDamageEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TMap<FName, TSubclassOf<UGameplayEffect>> DamageEffectMap;
+
+	TSubclassOf<UGameplayEffect> GetDamageEffectForCurrentCombo() const;
+
 	UFUNCTION()
 	void HandleComboChange(FGameplayEventData EventData);
 
