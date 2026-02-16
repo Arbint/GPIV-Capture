@@ -42,6 +42,13 @@ void UGA_Combo::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 		WaitComboChangeEvent->ReadyForActivation();
 	}
 
+	if (K2_HasAuthority())
+	{
+		UAbilityTask_WaitGameplayEvent* WaitDamgeEvent = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(this, TAG_Combo_Damage);
+		WaitDamgeEvent->EventReceived.AddDynamic(this, &UGA_Combo::HandleDamageEvent);
+		WaitDamgeEvent->ReadyForActivation();
+	}
+
 	BindInputPressedEvent();
 }
 
@@ -60,6 +67,11 @@ void UGA_Combo::HandleComboChange(FGameplayEventData EventData)
 	NextComboName = TagNames.Last();
 
 	//UE_LOG(LogTemp, Warning, TEXT("Next Combo is: %s"), *(NextComboName.ToString()))
+}
+
+void UGA_Combo::HandleDamageEvent(FGameplayEventData EventData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Doing Damage! starting at: %s"), *(EventData.TargetData.Get(0)->GetOrigin().GetLocation().ToString()))
 }
 
 void UGA_Combo::BindInputPressedEvent()

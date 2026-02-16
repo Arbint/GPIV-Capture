@@ -30,6 +30,9 @@ private:
 	UFUNCTION()
 	void HandleComboChange(FGameplayEventData EventData);
 
+	UFUNCTION()
+	void HandleDamageEvent(FGameplayEventData EventData);
+
 	void BindInputPressedEvent();
 
 	UFUNCTION()
