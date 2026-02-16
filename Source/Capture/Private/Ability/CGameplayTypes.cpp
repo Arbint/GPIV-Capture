@@ -5,6 +5,7 @@
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Cooldown, "ability.combo.cooldown", "cooldown tag that will be added to the combo ability cooldown effect")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo, "ability.combo", "tag for the combo ability it self")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Damage, "ability.combo.damage", "Tag for sending damage detection event to the combo ability")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Change, "ability.combo.change", "Tag to tell the combo ability what combo is up for next")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Change_Combo01, "ability.combo.change.combo01", "Tag to tell the combo ability the next combo is combo01")
