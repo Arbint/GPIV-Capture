@@ -71,7 +71,8 @@ void UGA_Combo::HandleComboChange(FGameplayEventData EventData)
 
 void UGA_Combo::HandleDamageEvent(FGameplayEventData EventData)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Doing Damage! starting at: %s"), *(EventData.TargetData.Get(0)->GetOrigin().GetLocation().ToString()))
+	//UE_LOG(LogTemp, Warning, TEXT("Doing Damage! starting at: %s"), *(EventData.TargetData.Get(0)->GetOrigin().GetLocation().ToString()))
+	TArray<FHitResult> Targets = GetHitResultFromTargetData(EventData.TargetData, DamageDetectionRadius, true, bShouldDrawDebug);
 }
 
 void UGA_Combo::BindInputPressedEvent()
