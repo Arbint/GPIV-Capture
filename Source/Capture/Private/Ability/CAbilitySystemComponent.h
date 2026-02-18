@@ -15,10 +15,15 @@ class UCAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
 public:	
+	UCAbilitySystemComponent();
 	void ApplyInitialEffects();
 	void GiveInitialAbilities();
+	void AuthApplyGameplayEffect(const TSubclassOf<UGameplayEffect>& EffectToApply);
 
 private:
+	UPROPERTY(EditDefaultsOnly, Category = "GameplayEffect")
+	TSubclassOf<UGameplayEffect> DeathEffect;
+
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayEffect")
 	TArray<TSubclassOf<UGameplayEffect>> InitialEffects;
 
@@ -28,4 +33,5 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay Ability")
 	TMap<ECAbilityInputID, TSubclassOf<UGameplayAbility>> BasicAbilities;
 
+	void HealthUpdated(const FOnAttributeChangeData& ChangeData);
 };

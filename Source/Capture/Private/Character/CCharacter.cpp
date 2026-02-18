@@ -51,6 +51,10 @@ void ACCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	InitializedOverheadWidget();
+	if (GetController() && !GetController()->IsPlayerController())
+	{
+		ServerSideInit();
+	}
 }
 
 // Called every frame

@@ -13,3 +13,5 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Change_Combo02, "ability.combo.change.c
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Change_Combo03, "ability.combo.change.combo03", "Tag to tell the combo ability the next combo is combo03")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Change_Combo04, "ability.combo.change.combo04", "Tag to tell the combo ability the next combo is combo04")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Combo_Change_End, "ability.combo.change.end", "Tag to tell the combo ability no more combo for next after this point")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Stat_Dead, "stat.dead", "tag added when a character is dead")
