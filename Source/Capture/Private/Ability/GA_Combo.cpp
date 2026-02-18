@@ -93,13 +93,20 @@ void UGA_Combo::HandleDamageEvent(FGameplayEventData EventData)
 	TArray<FHitResult> Targets = GetHitResultFromTargetData(EventData.TargetData, DamageDetectionRadius, true, bShouldDrawDebug);
 	for (const FHitResult& Target : Targets)
 	{
-		ApplyGameplayEffectToTarget(
+		FGameplayEffectSpecHandle DamageEffectSpec = MakeOutgoingGameplayEffectSpec(GetDamageEffectForCurrentCombo(), 
+			GetAbilityLevel(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo()));
+
+		FGameplayEffectContextHandle Context = MakeEffectContext(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo());
+		Context.AddHitResult(Target);
+
+		DamageEffectSpec.Data->SetContext(Context);
+
+		ApplyGameplayEffectSpecToTarget(
 			GetCurrentAbilitySpecHandle(),
 			GetCurrentActorInfo(),
 			GetCurrentActivationInfo(),
-			UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(Target),
-			GetDamageEffectForCurrentCombo(),
-			GetAbilityLevel(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo())
+			DamageEffectSpec,
+			UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(Target)
 		);
 	}
 }
